@@ -22,4 +22,7 @@ export class AppComponent {
     this.n += 10
     this.mass = this.CreateMass(this.n);
   }
+  ScrollUp(){
+    scrollTo(0,0)
+  }
 }

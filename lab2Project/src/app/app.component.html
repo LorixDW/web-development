@@ -1,3 +1,4 @@
+
 {{mass.length}}
 <div class="col" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="1000"
 (scrolled)="Extend()">
@@ -6,6 +7,9 @@
     <app-card></app-card>
     <app-card></app-card>
     <app-card></app-card>
+
   </div>
+  <button class="stick" (click)="ScrollUp()">Top</button>
 </div>
+
 
