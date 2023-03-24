@@ -1,0 +1,11 @@
+.example-card {
+  max-width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.example-header-image {
+  max-height: 500px;
+}
