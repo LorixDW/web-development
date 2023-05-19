@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Update User</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" class="form" (ngSubmit)="Submit()">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option [value]="typeList[0]">{{typeList[0]}}</mat-option>
+        <mat-option [value]="typeList[1]">{{typeList[1]}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button color="primary" mat-raised-button [disabled] = "form.invalid">Send</button>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button color="primary" mat-raised-button (click)="onNoClick()">Cancel</button>
+</div>
