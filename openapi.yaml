@@ -1,0 +1,296 @@
+openapi: 3.0.0
+info:
+  title: 'Vegatables And Fruits'
+  version: '1.0'
+  description: 'An API for getting vegatables fruits'
+
+servers:
+  - url: 'http://localhost:4000/'
+    description: 'Dev server_'
+paths:
+  /user:
+    get:
+      tags:
+        - User authorization
+      summary: "Login"
+      parameters:
+        - $ref: '#/components/parameters/email'
+        - $ref: '#/components/parameters/password'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userInfo'
+        404:
+          description: User not found
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notFound'
+        400:
+          description: Bad request
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/fail'
+    post:
+      tags:
+        - User authorization
+      summary: "Registration"
+      parameters:
+        - $ref: '#/components/parameters/email'
+        - $ref: '#/components/parameters/password'
+      responses:
+        200:
+          description: Successful response
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/OK'
+        404:
+          description: Already exists
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/alreadyExists'
+        400:
+          description: Bad request
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/fail'
+  /entity:
+    get:
+      tags:
+        - Entity management
+      security:
+        - appid: []
+      summary: "Get Vegatables and Fruits list"
+      description: "Get list of vegatables and fruits according to entered parameters"
+      parameters:
+        - $ref: '#/components/parameters/type'
+
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entities'
+        403:
+          description: Forbiden
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notAllowed'
+        404:
+          description: Not found
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/wrongQuery'
+    post:
+      tags:
+        - Entity management
+      summary: "Post Vegatable or Fruit"
+      description: "Post vegetable or fruit with entered parameters"
+      parameters:
+        - $ref: '#/components/parameters/typeStrict'
+        - $ref: '#/components/parameters/name'
+      responses:
+        200:
+          description: Successful response
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/OK'
+        400:
+          description: Bad request
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/fail'
+        403:
+          description: Forbiden
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notAllowed'
+        404:
+          description: "Not found entity"
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notFound'
+    put:
+      tags:
+        - Entity management
+      summary: "Replace vegetable or Fruit"
+      description: "Replace vegetable or fruit with entered parameters"
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/typeStrict'
+        - $ref: '#/components/parameters/name'
+      responses:
+        200:
+          description: Successful response
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/OK'
+        400:
+          description: Bad request
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/fail'
+        403:
+          description: Forbiden
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notAllowed'
+        404:
+          description: "Not found entity"
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notFound'
+    delete:
+      tags:
+        - Entity management
+      summary: "Delete vegetable or Fruit"
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Successful response
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/OK'
+        400:
+          description: Bad request
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/fail'
+        403:
+          description: Forbiden
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notAllowed'
+        404:
+          description: "Not found entity"
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/notFound'
+components:
+  parameters:
+    id:
+      name: ID
+      in: query
+      description: "Identificator"
+      required: true
+      schema:
+        type: integer
+    typeStrict:
+      name: type
+      in: query
+      description: "Type of entities - vegatables or fruits"
+      required: true
+      schema:
+        type: string
+        enum: [vegetable, fruit]
+        default: "vegetable"
+    type:
+      name: type
+      in: query
+      description: "Type of entities - vegatables or fruits (optioonal)"
+      schema:
+        type: string
+        enum: [vegetable, fruit]
+    max:
+      name: max
+      in: query
+      description: "Max count of entities"
+      schema:
+        type: integer
+    name:
+      name: Name
+      in: query
+      description: "Name of vegetable or fruit"
+      required: true
+      schema:
+        type: string
+    email:
+      name: email
+      in: query
+      description: "email address"
+      required: true
+      schema:
+        type: string
+    password:
+      name: password
+      in: query
+      required: true
+      schema:
+        type: string
+  schemas:
+    wrongQuery:
+      title: wrong query
+      type: string
+      example: "Wrong query"
+    notAllowed:
+      title: unauthorized
+      type: string
+      example: "Unauthorized"
+    notFound:
+      title: not found user
+      type: string
+      example: "Not found user"
+    OK:
+      title: ok
+      type: string
+      example: "Ok"
+    fail:
+      title: fail
+      type: string
+      example: "Fail"
+    alreadyExists:
+      title: already exists
+      type: string
+      example: "Already exists"
+    userInfo:
+      title: userInfo
+      type: object
+      properties:
+        appid:
+          type: string
+          example: "0"
+    entities:
+      title: Successful response
+      type: array
+      items:
+        $ref: '#/components/schemas/entity'
+    entity:
+      title: "entity"
+      type: object
+      properties:
+        id:
+          title: "identificator"
+          type: integer
+          example: 0
+        type:
+          title: "Type of entity"
+          type: string
+          enum: [vegetables, fruit]
+          example: "fruit"
+        name:
+          title: "Name of entity"
+          type: string
+          example: "Lemon"

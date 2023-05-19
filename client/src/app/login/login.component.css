@@ -1,0 +1,18 @@
+.card{
+  width: 600px;
+}
+.login mat-form-field, button, p, div {
+  display: inline;
+}
+.login button {
+  margin-right: 10px;
+}
+.resendBtn{
+  margin-top: 10px;
+}
+.window{
+  display: flex;
+  justify-content: center;
+}
+
+
